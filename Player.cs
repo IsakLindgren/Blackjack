@@ -10,8 +10,8 @@ namespace Blackjack
     {
         public List<Card> Hand;
         public Card? LastDrawnCard;
-        public int LowValue { get; private set; }
-        int HighValue;
+        public int LowValue;
+        public int HighValue;
         //dot yet know what to do with best value
         int BestValue;
         public Player()
