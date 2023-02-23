@@ -16,14 +16,34 @@ namespace Blackjack
         Player Dealer;
         Deck Deck;
         GameStatus Status;
+        int nrOfDecks;
         public Game()
+        {
+            Player = new Player();
+            Dealer = new Player();
+            Deck = new Deck(0);
+        }
+        public void initialize()
         {
             //Game initialization
             Player = new Player();
             Dealer = new Player();
-            //4 is how many decks it shuffles together (might add a prompt to choose how many decks)
-            Deck = new Deck(4);
+            //takes a number input and mixes that many decks of cards
+            bool success = false;
+            while (!success)
+            {
+                Console.WriteLine("How many decks of cards?");
+                success = int.TryParse(Console.ReadLine(), out nrOfDecks);
+                if (success)
+                    Deck = new Deck(nrOfDecks);
+                else
+                    Console.WriteLine("not a number, try again");
+            }
             Status = GameStatus.Playing;
+        }
+        public void run()
+        {
+            initialize();
 
             //draws 2 cards for each to start the game
             PlayerDraw(2);
@@ -76,10 +96,21 @@ namespace Blackjack
                     Console.WriteLine("an error occured");
                     break;
             }
+
+            Console.WriteLine(Environment.NewLine + "Play Again?" + Environment.NewLine + "(Y/N)");
+            string again = Console.ReadLine();
+            if (again.ToLower() == "y")
+            {
+                reset();
+            }
+            else if (again.ToLower() == "n")
+            {
+                Environment.Exit(0);
+            }
         }
         public void reset()
         {
-
+            run();
         }
         public void PlayerDraw(int nrOfCards)
         {
